@@ -1,15 +1,44 @@
 import { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/authContext";
+
 
 function LoginPopup({ onClose, openRegister }) {
+  // console.log(onClose,openRegister)
   const [email,setEmail]=useState("")
+  const {setIsAuthenticated}=useAuth();
+  const navigate = useNavigate();
   const [password,setpassword]=useState("")
 
-  const loginHandle= ()=>{
-    if(!email.includes('@')){
-      alert('enter proper email')
-    }
-    console.log({"email":email,"password":password})
+const loginHandle = async () => {
+  if (!email.includes("@")) {
+    alert("Enter a proper email");
+    return;
   }
+
+  try {
+    const res = await axios.post(
+      "http://localhost:5000/api/auth/login",
+      {
+        email,
+        password
+      }
+    );
+   console.log(res)
+    localStorage.setItem("token", res.data.token);
+
+    alert("Login successful");
+    setIsAuthenticated(true);
+    navigate("/dashboard");
+
+    onClose();
+
+  } catch (error) {
+    alert(error.response?.data?.message || "Login failed");
+  }
+};
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
       <div className="bg-white p-8 rounded-lg w-full max-w-md relative">

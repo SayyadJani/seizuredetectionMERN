@@ -1,6 +1,9 @@
 import { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function RegisterPopup({ onClose, openLogin }) {
+  const navigate = useNavigate();
   const [imagePreview, setImagePreview] = useState(null);
   const [email,setEmail]=useState("")
   const [name,setName]=useState("")
@@ -13,15 +16,32 @@ function RegisterPopup({ onClose, openLogin }) {
     }
 
   }
-  const registerHandle =()=>{
+  const registerHandle = async () => {
     console.log({
-      "userName": name,
+      "user":name,
       "email":email,
       "password":password,
-      "image":imagePreview,
+      "image":imagePreview
     })
-    
-  }
+    try {
+      const res = await axios.post(
+        "http://localhost:5000/api/auth/register",
+        {
+          name,
+          email,
+          password,
+          image: ""
+        }
+      );
+
+      console.log(res.data);
+      alert("Registered successfully");
+      onClose();
+      navigate("/dashboard")
+    } catch (error) {
+      alert(error.response?.data?.message || "Registration failed");
+    }
+  };
 
 
 

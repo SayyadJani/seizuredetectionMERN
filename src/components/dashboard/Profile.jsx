@@ -1,4 +1,6 @@
+import { useAuth } from "../../context/authContext";
 function Profile() {
+  const {setIsAuthenticated}=useAuth();
   return (
     <div data-aos="fade-up" className="max-w-3xl">
 
@@ -55,7 +57,7 @@ function Profile() {
 
       {/* Logout */}
       <div className="mt-8">
-        <button className="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-500 transition">
+        <button onClick={setIsAuthenticated(false)}  className="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-500 transition">
           Logout
         </button>
       </div>

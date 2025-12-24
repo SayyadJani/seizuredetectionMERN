@@ -16,7 +16,6 @@ function DetectSeizure() {
     setLoading(true);
     setResult(null);
 
-    // Dummy delay (replace with API later)
     setTimeout(() => {
       setResult({
         seizure: false,
@@ -27,26 +26,23 @@ function DetectSeizure() {
   }
 
   return (
-    <div data-aos="fade-up" className="max-w-3xl">
+    <div data-aos="fade-up" className="max-w-3xl w-full">
 
-      {/* Header */}
-      <h1 className="text-3xl font-bold text-blue-900 mb-8">
+      <h1 className="text-2xl sm:text-3xl font-bold text-blue-900 mb-6 sm:mb-8">
         Detect Seizure
       </h1>
 
-      {/* Upload Card */}
-      <div className="bg-white p-8 rounded-xl shadow-md">
+      <div className="bg-white p-6 sm:p-8 rounded-xl shadow-md">
 
-        <h2 className="text-lg font-semibold text-gray-800 mb-4">
+        <h2 className="text-base sm:text-lg font-semibold text-gray-800 mb-4">
           Upload EEG Data
         </h2>
 
-        {/* File Upload */}
-        <label className="flex flex-col items-center justify-center border-2 border-dashed border-blue-300 rounded-lg p-6 cursor-pointer hover:bg-blue-50 transition">
+        <label className="flex flex-col items-center justify-center border-2 border-dashed border-blue-300 rounded-lg p-6 cursor-pointer hover:bg-blue-50 transition text-center">
           <span className="text-blue-700 font-medium">
             Click to upload EEG file
           </span>
-          <span className="text-sm text-gray-500 mt-1">
+          <span className="text-xs sm:text-sm text-gray-500 mt-1">
             Supported formats: .csv, .edf
           </span>
 
@@ -58,29 +54,26 @@ function DetectSeizure() {
         </label>
 
         {fileName && (
-          <p className="mt-3 text-sm text-gray-600">
+          <p className="mt-3 text-xs sm:text-sm text-gray-600">
             Selected file: <strong>{fileName}</strong>
           </p>
         )}
 
-        {/* Action Button */}
         <div className="mt-6">
           <button
             onClick={handleDetect}
             disabled={loading}
-            className={`px-6 py-2 rounded-lg text-white transition ${
+            className={`w-full sm:w-auto px-6 py-2 rounded-lg text-white transition ${
               loading
                 ? "bg-blue-400 cursor-not-allowed"
                 : "bg-blue-700 hover:bg-blue-600"
             }`}
           >
-            {loading ? "Analyzing EEG Data..." : "Detect Seizure"}
+            {loading ? "Analyzing..." : "Detect Seizure"}
           </button>
         </div>
-
       </div>
 
-      {/* Result */}
       {result && (
         <div className="mt-8">
           <ResultCard result={result} />

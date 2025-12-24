@@ -6,58 +6,44 @@ function History() {
   ];
 
   return (
-    <div data-aos="fade-up" className="max-w-4xl">
+    <div data-aos="fade-up" className="max-w-4xl w-full">
 
-      {/* Header */}
-      <h1 className="text-3xl font-bold text-blue-900 mb-8">
+      <h1 className="text-2xl sm:text-3xl font-bold text-blue-900 mb-6 sm:mb-8">
         Detection History
       </h1>
 
-      {/* History Card */}
-      <div className="bg-white rounded-xl shadow-md overflow-hidden">
+      <div className="bg-white rounded-xl shadow-md overflow-x-auto">
 
-        {/* Table Header */}
-        <div className="grid grid-cols-3 bg-blue-50 px-6 py-4 text-sm font-semibold text-blue-900">
-          <span>Date</span>
-          <span>Result</span>
-          <span>Confidence</span>
-        </div>
+        <div className="min-w-[600px]">
+          <div className="grid grid-cols-3 bg-blue-50 px-6 py-4 text-sm font-semibold text-blue-900">
+            <span>Date</span>
+            <span>Result</span>
+            <span>Confidence</span>
+          </div>
 
-        {/* Rows */}
-        {history.map((item, i) => (
-          <div
-            key={i}
-            className="grid grid-cols-3 px-6 py-4 border-t text-sm items-center hover:bg-gray-50 transition"
-          >
-            {/* Date */}
-            <span className="text-gray-700">
-              {item.date}
-            </span>
-
-            {/* Result Badge */}
-            <span
-              className={`inline-block w-fit px-3 py-1 rounded-full text-xs font-medium ${
-                item.result === "Seizure"
-                  ? "bg-red-100 text-red-700"
-                  : "bg-green-100 text-green-700"
-              }`}
+          {history.map((item, i) => (
+            <div
+              key={i}
+              className="grid grid-cols-3 px-6 py-4 border-t text-sm items-center hover:bg-gray-50 transition"
             >
-              {item.result}
-            </span>
+              <span>{item.date}</span>
 
-            {/* Confidence */}
-            <span className="font-medium text-gray-800">
-              {item.confidence}
-            </span>
-          </div>
-        ))}
+              <span
+                className={`w-fit px-3 py-1 rounded-full text-xs font-medium ${
+                  item.result === "Seizure"
+                    ? "bg-red-100 text-red-700"
+                    : "bg-green-100 text-green-700"
+                }`}
+              >
+                {item.result}
+              </span>
 
-        {/* Empty State (for future use) */}
-        {history.length === 0 && (
-          <div className="px-6 py-8 text-center text-gray-500">
-            No detection history available.
-          </div>
-        )}
+              <span className="font-medium">
+                {item.confidence}
+              </span>
+            </div>
+          ))}
+        </div>
 
       </div>
     </div>

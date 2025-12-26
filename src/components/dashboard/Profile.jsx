@@ -45,7 +45,7 @@ function Profile() {
         </div>
       </div>
 
-      <div className="mt-8">
+      <div className="mt-8 mb-8">
         <button
           onClick={() => setIsAuthenticated(false)}
           className="w-full sm:w-auto px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-500 transition"

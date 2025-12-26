@@ -1,47 +1,52 @@
 import { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/authContext";
 
 function RegisterPopup({ onClose, openLogin }) {
-  const navigate = useNavigate();
   const [imagePreview, setImagePreview] = useState(null);
   const [email,setEmail]=useState("")
   const [name,setName]=useState("")
   const [password,setpassword]=useState("")
+  const {setIsAuthenticated}=useAuth()
+  const [imageFile, setImageFile] = useState(null);
 
-  function handleImageChange(e) {
-    const file = e.target.files[0];
-    if (file) {
-      setImagePreview(URL.createObjectURL(file));
-    }
 
+ function handleImageChange(e) {
+  const file = e.target.files[0];
+  if (file) {
+    setImageFile(file);
+    setImagePreview(URL.createObjectURL(file));
   }
-  const registerHandle = async () => {
-    console.log({
-      "user":name,
-      "email":email,
-      "password":password,
-      "image":imagePreview
-    })
-    try {
-      const res = await axios.post(
-        "http://localhost:5000/api/auth/register",
-        {
-          name,
-          email,
-          password,
-          image: ""
-        }
-      );
+}
 
-      console.log(res.data);
-      alert("Registered successfully");
-      onClose();
-      navigate("/dashboard")
-    } catch (error) {
-      alert(error.response?.data?.message || "Registration failed");
+  const registerHandle = async () => {
+  try {
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("email", email);
+    formData.append("password", password);
+
+    if (imageFile) {
+      formData.append("image", imageFile); 
     }
-  };
+
+    const res = await axios.post(
+      "http://localhost:8080/api/auth/register",
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+
+    alert("Registered successfully, please login");
+    onClose();
+    openLogin();
+  } catch (error) {
+    alert(error.response?.data?.message || "Registration failed");
+  }
+};
 
 
 

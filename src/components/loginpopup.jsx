@@ -1,14 +1,13 @@
 import { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/authContext";
+import { useNavigate } from "react-router-dom";
 
 
 function LoginPopup({ onClose, openRegister }) {
-  // console.log(onClose,openRegister)
-  const [email,setEmail]=useState("")
-  const {setIsAuthenticated}=useAuth();
   const navigate = useNavigate();
+  const [email,setEmail]=useState("")
+  const {login}=useAuth();
   const [password,setpassword]=useState("")
 
 const loginHandle = async () => {
@@ -19,21 +18,15 @@ const loginHandle = async () => {
 
   try {
     const res = await axios.post(
-      "http://localhost:5000/api/auth/login",
+      "http://localhost:8080/api/auth/login",
       {
         email,
         password
       }
     );
-   console.log(res)
-    localStorage.setItem("token", res.data.token);
-
-    alert("Login successful");
-    setIsAuthenticated(true);
     navigate("/dashboard");
-
     onClose();
-
+    login(res.data.token,res.data.user);
   } catch (error) {
     alert(error.response?.data?.message || "Login failed");
   }

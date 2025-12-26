@@ -1,24 +1,69 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { fetchUserProfile } from "../api/userApi";
+
 
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true); // ✅ ADD THIS
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      setIsAuthenticated(true);
-    } else {
-      setIsAuthenticated(false);
-    }
-  }, []);
+    const isAuthenticated = !!user;
+    console.log(isAuthenticated)
+    const [activeModal, setActiveModal] = useState(null);
+
 
  
+ useEffect(() => {
+    const token = localStorage.getItem("tokenSEI");
+
+    async function loadUser() {
+      try {
+        if (!token) {
+          setLoading(false);
+          return;
+        }
+        const userData = await fetchUserProfile(token);
+        setUser(userData);
+      } catch (error) {
+        localStorage.removeItem("tokenSEI");
+        setUser(null);
+       }
+       
+       finally {
+        setLoading(false);
+        console.log(loading)
+      }
+    }
+
+    loadUser();
+  }, []);
+  
+  function logOut() {
+    localStorage.removeItem("tokenSEI");
+    setUser(null);
+  }
+
+
+  function login(token, userData) {
+    localStorage.setItem("tokenSEI", token);
+    setUser(userData);
+    alert("Login successful");
+    // console.log(user);
+  }
+
 
   return (
     <AuthContext.Provider
-      value={{ isAuthenticated,setIsAuthenticated }}
+      value={{ 
+        isAuthenticated,
+         logOut, 
+         activeModal,
+         setActiveModal,
+         login,
+         user,
+         loading,
+        }}
     >
       {children}
     </AuthContext.Provider>

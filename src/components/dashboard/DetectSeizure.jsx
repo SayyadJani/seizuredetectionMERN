@@ -1,10 +1,32 @@
 import { useState } from "react";
 import ResultCard from "./ResultCard";
+import DetectSeizureSkeleton from "../Skeleton/DetectSeizureSkeleton";
+import { useAuth } from "../../context/authContext";
+import { saveHistory } from "../../api/saveHistory";
 
 function DetectSeizure() {
-  const [loading, setLoading] = useState(false);
+  const {loading}=useAuth()
   const [result, setResult] = useState(null);
   const [fileName, setFileName] = useState("");
+
+  const [load,setload]=useState(false)
+
+  if(loading){
+    return <DetectSeizureSkeleton/>
+  }
+
+  async function handleSaveResult(result) {
+  try {
+    await saveHistory(
+      result.seizure ? "Seizure" : "No Seizure",
+      `${(result.confidence * 100).toFixed(0)}%`
+    );
+
+    alert("Result saved");
+  } catch (err) {
+    alert("Save failed");
+  }
+}
 
   function handleFileChange(e) {
     if (e.target.files[0]) {
@@ -13,15 +35,15 @@ function DetectSeizure() {
   }
 
   function handleDetect() {
-    setLoading(true);
     setResult(null);
-
+    setload(true)
     setTimeout(() => {
       setResult({
         seizure: false,
         confidence: 0.92,
       });
-      setLoading(false);
+      
+      setload(false)
     }, 1500);
   }
 
@@ -69,7 +91,7 @@ function DetectSeizure() {
                 : "bg-blue-700 hover:bg-blue-600"
             }`}
           >
-            {loading ? "Analyzing..." : "Detect Seizure"}
+            {load ? "Analyzing..." : "Detect Seizure"}
           </button>
         </div>
       </div>

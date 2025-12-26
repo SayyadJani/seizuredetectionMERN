@@ -13,10 +13,10 @@ function Navbar() {
     const base = mobile ? "block py-2" : "hover:text-white";
     return (
       <>
-        <Link to="/" className={base}>Home</Link>
-        <Link to="/about" className={base}>About</Link>
-        <Link to="/dashboard" className={base}>Dashboard</Link>
-        <Link to="/contact" className={base}>Contact</Link>
+        <Link to="/" onClick={() => setIsMobileOpen(!isMobileOpen)} className={base}>Home</Link>
+        <Link to="/about" onClick={() => setIsMobileOpen(!isMobileOpen)} className={base}>About</Link>
+        <Link to="/dashboard"  onClick={() => setIsMobileOpen(!isMobileOpen)} className={base}>Dashboard</Link>
+        <Link to="/contact"  onClick={() => setIsMobileOpen(!isMobileOpen)} className={base}>Contact</Link>
       </>
     );
   }

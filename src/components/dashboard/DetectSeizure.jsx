@@ -2,7 +2,6 @@ import { useState } from "react";
 import ResultCard from "./ResultCard";
 import DetectSeizureSkeleton from "../Skeleton/DetectSeizureSkeleton";
 import { useAuth } from "../../context/authContext";
-import { saveHistory } from "../../api/saveHistory";
 
 function DetectSeizure() {
   const {loading}=useAuth()
@@ -15,18 +14,7 @@ function DetectSeizure() {
     return <DetectSeizureSkeleton/>
   }
 
-  async function handleSaveResult(result) {
-  try {
-    await saveHistory(
-      result.seizure ? "Seizure" : "No Seizure",
-      `${(result.confidence * 100).toFixed(0)}%`
-    );
-
-    alert("Result saved");
-  } catch (err) {
-    alert("Save failed");
-  }
-}
+  
 
   function handleFileChange(e) {
     if (e.target.files[0]) {

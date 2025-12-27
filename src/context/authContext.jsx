@@ -9,7 +9,6 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true); // ✅ ADD THIS
 
     const isAuthenticated = !!user;
-    console.log(isAuthenticated)
     const [activeModal, setActiveModal] = useState(null);
 
 
@@ -32,7 +31,6 @@ export function AuthProvider({ children }) {
        
        finally {
         setLoading(false);
-        console.log(loading)
       }
     }
 
@@ -63,6 +61,7 @@ export function AuthProvider({ children }) {
          login,
          user,
          loading,
+         setUser
         }}
     >
       {children}

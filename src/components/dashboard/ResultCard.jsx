@@ -1,25 +1,32 @@
 import { useState } from "react";
 import { saveHistory } from "../../api/saveHistory";
+import { useAuth } from "../../context/authContext";
 
 function ResultCard({ result }) {
   const [saved, setSaved] = useState(false);
+  const [saving, setSaving] = useState(false);
 
+  const { setUser } = useAuth();
 
-async function handleSaveResult(result) {
-  try {
-    await saveHistory(
-      result.seizure ? "Seizure" : "No Seizure",
-      `72%`
-      
-    );
-    setSaved(true);
-    console.log()
-
-    alert("Result saved");
-  } catch (err) {
-    alert("Save failed");
+  async function handleSaveResult() {
+    try {
+      setSaving(true);
+      const res = await saveHistory(
+        result.seizure ? "Seizure" : "No Seizure",
+        `${(result.confidence * 100).toFixed(1)}%`
+      );
+      setSaved(true);
+      setUser(prev => ({
+        ...prev,
+        history: res.data.history,
+      }));
+    } catch (err) {
+      console.error(err);
+      alert("Save failed");
+    } finally {
+      setSaving(false);
+    }
   }
-}
 
   return (
     <div
@@ -43,14 +50,20 @@ async function handleSaveResult(result) {
       <div className="mt-4">
         <button
           onClick={handleSaveResult}
-          disabled={saved}
-          className={`px-5 py-2 rounded-lg text-sm font-medium transition ${
+          disabled={saved || saving}
+          className={`px-5 py-2 rounded-lg text-sm font-medium transition flex items-center gap-2 ${
             saved
               ? "bg-green-100 text-green-700 cursor-not-allowed"
+              : saving
+              ? "bg-blue-400 text-white cursor-not-allowed"
               : "bg-blue-700 text-white hover:bg-blue-600"
           }`}
         >
-          {saved ? "Saved ✔" : "Save Result"}
+          {saving && (
+            <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+          )}
+
+          {saved ? "Saved ✔" : saving ? "Saving..." : "Save Result"}
         </button>
       </div>
     </div>

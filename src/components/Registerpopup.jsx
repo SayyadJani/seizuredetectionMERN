@@ -1,6 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
-
+import axiosInstance from "../api/axiosInstance";
 function RegisterPopup({ onClose, openLogin }) {
   const [imagePreview, setImagePreview] = useState(null);
   const [email, setEmail] = useState("");
@@ -9,6 +8,8 @@ function RegisterPopup({ onClose, openLogin }) {
   const [imageFile, setImageFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(""); // ✅ ADDED
+
+
 
   function handleImageChange(e) {
     const file = e.target.files[0];
@@ -44,10 +45,7 @@ function RegisterPopup({ onClose, openLogin }) {
         formData.append("image", imageFile);
       }
 
-      await axios.post(
-        "http://localhost:8080/api/auth/register",
-        formData
-      );
+      await axiosInstance.post("/api/auth/register",formData);
 
       alert("Registered successfully, please login");
       onClose();

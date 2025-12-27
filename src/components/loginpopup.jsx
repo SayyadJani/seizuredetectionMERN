@@ -1,7 +1,7 @@
 import { useState } from "react";
-import axios from "axios";
 import { useAuth } from "../context/authContext";
 import { useNavigate } from "react-router-dom";
+import axiosInstance from "../api/axiosInstance";
 
 
 function LoginPopup({ onClose, openRegister }) {
@@ -17,8 +17,7 @@ const loginHandle = async () => {
   }
 
   try {
-    const res = await axios.post(
-      "http://localhost:8080/api/auth/login",
+    const res = await axiosInstance.post("/api/auth/login",
       {
         email,
         password

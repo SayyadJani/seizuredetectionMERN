@@ -1,10 +1,12 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { fetchUserProfile } from "../api/userApi";
+import { useNavigate } from "react-router-dom";
 
 
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
+  const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true); 
   
@@ -40,6 +42,7 @@ export function AuthProvider({ children }) {
   function logOut() {
     localStorage.removeItem("tokenSEI");
     setUser(null);
+    navigate('/')
   }
 
 

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Sidebar from "../components/dashboard/Sidebar";
 import Overview from "../components/dashboard/Overview";
 import DetectSeizure from "../components/dashboard/DetectSeizure";
@@ -6,25 +6,28 @@ import History from "../components/dashboard/History";
 import Profile from "../components/dashboard/Profile";
 
 function Dashboard() {
-  const [activeSection, setActiveSection] = useState("overview");
+
 
   return (
-    <div className="flex flex-col sm:flex-row min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gray-100">
+      <Sidebar />
 
-      <Sidebar
-        activeSection={activeSection}
-        setActiveSection={setActiveSection}
-      />
-
-      <div className="flex-1 p-4 sm:p-6 mt-20 sm:mt-20 mb-10 sm:mb-0">
-        {activeSection === "overview" && <Overview />}
-        {activeSection === "detect" && <DetectSeizure />}
-        {activeSection === "history" && <History />}
-        {activeSection === "profile" && <Profile />}
+      {/* Main Content */}
+      <div className="pt-20 sm:ml-64 px-4 sm:px-6 pb-10">
+        <Routes>
+          <Route path="/" element={<Overview />} />
+          <Route path="detect" element={<DetectSeizure />} />
+          <Route path="history" element={<History />} />
+          <Route path="profile" element={<Profile />} />
+          <Route path="*" element={<Navigate to="/dashboard" />} />
+        </Routes>
       </div>
-
     </div>
   );
 }
 
 export default Dashboard;
+
+
+
+

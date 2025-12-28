@@ -1,79 +1,71 @@
-import { useEffect, useRef, useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import {
+  LayoutDashboard,
+  Activity,
+  History,
+  User
+} from "lucide-react";
 
-function Sidebar({ activeSection, setActiveSection }) {
-  const [showMobileBar, setShowMobileBar] = useState(false);
-  const hideTimer = useRef(null);
+function Sidebar() {
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  const itemClass = (name) =>
-    `px-4 py-2 rounded-full text-xs sm:text-base cursor-pointer transition-all duration-300 ${
-      activeSection === name
+  const isActive = (path) => location.pathname === path;
+
+  const itemClass = (path) =>
+    `flex items-center gap-2 px-4 py-2 rounded-full text-xs sm:text-base cursor-pointer transition-all duration-300 ${
+      isActive(path)
         ? "bg-white text-blue-900 font-semibold"
         : "text-blue-100 hover:bg-blue-800"
     }`;
 
-  // 🔹 Show bar on screen touch (mobile only)
-  useEffect(() => {
-    const handleTouch = () => {
-      setShowMobileBar(true);
-
-      if (hideTimer.current) {
-        clearTimeout(hideTimer.current);
-      }
-
-      hideTimer.current = setTimeout(() => {
-        setShowMobileBar(false);
-      }, 3000);
-    };
-
-    window.addEventListener("touchstart", handleTouch);
-
-    return () => {
-      window.removeEventListener("touchstart", handleTouch);
-      if (hideTimer.current) clearTimeout(hideTimer.current);
-    };
-  }, []);
-
   return (
     <>
-      {/* 🖥 Desktop Sidebar (unchanged) */}
-      <div className="hidden sm:block w-64 bg-blue-900 p-4 min-h-screen">
+      {/* 🖥 Desktop Sidebar */}
+      <div className="hidden sm:block w-64 bg-gradient-to-b from-blue-900 to-indigo-900 p-4 min-h-screen fixed">
         <nav className="space-y-3 mt-20">
-          <div onClick={() => setActiveSection("overview")} className={itemClass("overview")}>
+          <div onClick={() => navigate("/dashboard")} className={itemClass("/dashboard")}>
+            <LayoutDashboard size={18} />
             Overview
           </div>
-          <div onClick={() => setActiveSection("detect")} className={itemClass("detect")}>
+
+          <div onClick={() => navigate("/dashboard/detect")} className={itemClass("/dashboard/detect")}>
+            <Activity size={18} />
             Detect Seizure
           </div>
-          <div onClick={() => setActiveSection("history")} className={itemClass("history")}>
+
+          <div onClick={() => navigate("/dashboard/history")} className={itemClass("/dashboard/history")}>
+            <History size={18} />
             History
           </div>
-          <div onClick={() => setActiveSection("profile")} className={itemClass("profile")}>
+
+          <div onClick={() => navigate("/dashboard/profile")} className={itemClass("/dashboard/profile")}>
+            <User size={18} />
             Profile
           </div>
         </nav>
       </div>
 
-      {/* 📱 Mobile Floating Bottom Bar */}
-      <div
-        className={`sm:hidden fixed bottom-4 left-1/2 -translate-x-1/2 z-50 transition-all duration-500 ${
-          showMobileBar
-            ? "opacity-100 translate-y-0"
-            : "opacity-0 translate-y-10 pointer-events-none"
-        }`}
-      >
-        <div className="bg-blue-900/95 backdrop-blur-md px-4 py-3 rounded-full shadow-2xl flex gap-3">
-          <div onClick={() => setActiveSection("overview")} className={itemClass("overview")}>
-            Overview
+      {/* 📱 Mobile Bottom Navigation */}
+      <div className="sm:hidden fixed bottom-0 left-0 right-0 z-50 bg-blue-900/95 backdrop-blur-md shadow-2xl">
+        <div className="flex justify-around px-2 py-2">
+          
+          <div onClick={() => navigate("/dashboard")} className={itemClass("/dashboard")}>
+            <LayoutDashboard size={20} />
           </div>
-          <div onClick={() => setActiveSection("detect")} className={itemClass("detect")}>
-            Detect
+
+          <div onClick={() => navigate("/dashboard/detect")} className={itemClass("/dashboard/detect")}>
+            <Activity size={20} />
           </div>
-          <div onClick={() => setActiveSection("history")} className={itemClass("history")}>
-            History
+
+          <div onClick={() => navigate("/dashboard/history")} className={itemClass("/dashboard/history")}>
+            <History size={20} />
           </div>
-          <div onClick={() => setActiveSection("profile")} className={itemClass("profile")}>
-            Profile
+
+          <div onClick={() => navigate("/dashboard/profile")} className={itemClass("/dashboard/profile")}>
+            <User size={20} />
           </div>
+
         </div>
       </div>
     </>

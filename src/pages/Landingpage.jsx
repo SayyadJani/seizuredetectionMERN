@@ -111,24 +111,39 @@ function Landing() {
       </section>
 
       {/* CTA */}
-      <section
-        data-aos="fade-up"
-        className="bg-blue-900 py-16 text-center text-white"
-      >
-        <h2 className="text-3xl font-bold">
-          Start Detecting Seizures Smarter
-        </h2>
-        <p className="mt-4 text-blue-100">
-          Register now and experience AI-powered healthcare support.
-        </p>
+     <section
+  data-aos="fade-up"
+  className="relative overflow-hidden bg-gradient-to-br from-blue-900 via-blue-800 to-indigo-900 py-16 sm:py-20 px-4 text-center text-white"
+>
+  {/* subtle glow */}
+  <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.08),transparent_60%)]"></div>
 
-        <button
-        
-          className="inline-block mt-6 px-8 py-3 bg-blue-600 rounded-lg hover:bg-blue-500 transition"
-        >
-          Sign Up Now
-        </button>
-      </section>
+  <div className="relative max-w-3xl mx-auto">
+    <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight">
+      Start Detecting Seizures Smarter
+    </h2>
+
+    <p className="mt-3 sm:mt-4 text-sm sm:text-base md:text-lg text-blue-100">
+      Register now and experience AI-powered healthcare support.
+    </p>
+
+    <button
+      className="group inline-flex items-center justify-center mt-6 sm:mt-8 px-8 py-3 rounded-xl
+      bg-blue-600 hover:bg-blue-500 transition-all duration-300
+      shadow-lg shadow-blue-900/40 hover:shadow-blue-700/60
+      focus:outline-none focus:ring-2 focus:ring-blue-300"
+    >
+      <span className="text-sm sm:text-base font-semibold">
+        Sign Up Now
+      </span>
+
+      <span className="ml-2 transform transition-transform duration-300 group-hover:translate-x-1">
+        →
+      </span>
+    </button>
+  </div>
+</section>
+
  {showLogin && (
   <LoginPopup
     onClose={() => setShowLogin(false)}

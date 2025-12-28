@@ -6,11 +6,11 @@ const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true); // ✅ ADD THIS
+  const [loading, setLoading] = useState(true); 
+  
 
-    const isAuthenticated = !!user;
-    const [activeModal, setActiveModal] = useState(null);
-
+ const isAuthenticated = !!user;
+ const [activeModal, setActiveModal] = useState(null);
 
  
  useEffect(() => {

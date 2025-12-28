@@ -9,9 +9,9 @@ function DetectSeizure() {
   const [fileName, setFileName] = useState("");
 
   const [load,setload]=useState(false)
-
   if(loading){
     return <DetectSeizureSkeleton/>
+    
   }
 
   

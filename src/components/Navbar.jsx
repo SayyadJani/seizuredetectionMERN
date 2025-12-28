@@ -4,31 +4,41 @@ import RegisterPopup from "./Registerpopup";
 import LoginPopup from "./loginpopup";
 import { useAuth } from "../context/authContext";
 
-
 function Navbar() {
- 
   const [isMobileOpen, setIsMobileOpen] = useState(false);
-  const { isAuthenticated,logOut ,setActiveModal,activeModal} = useAuth();
+  const { isAuthenticated, logOut, setActiveModal, activeModal } = useAuth();
 
   function NavLinks({ mobile = false }) {
-    const base = mobile ? "block py-2" : "hover:text-white";
-    // console.log(base)
+    const base = mobile
+      ? "block py-2 text-blue-100 hover:text-white transition"
+      : "hover:text-white transition";
+
     return (
       <>
-        <Link to="/" onClick={() => setIsMobileOpen(false)} className={base}>Home</Link>
-        <Link to="/about" onClick={() => setIsMobileOpen(false)} className={base}>About</Link>
-        <Link to="/dashboard" onClick={() => setIsMobileOpen(false)} className={base}>Dashboard</Link>
-        <Link to="/contact" onClick={() => setIsMobileOpen(false)} className={base}>Contact</Link>
+        <Link to="/" onClick={() => setIsMobileOpen(false)} className={base}>
+          Home
+        </Link>
+        <Link to="/about" onClick={() => setIsMobileOpen(false)} className={base}>
+          About
+        </Link>
+        <Link to="/dashboard" onClick={() =>
+           setIsMobileOpen(false)} className={base}>
+          Dashboard
+        </Link>
+        <Link to="/contact" onClick={() => setIsMobileOpen(false)} className={base}>
+          Contact
+        </Link>
       </>
     );
   }
 
   return (
     <>
-      <nav className="fixed top-0 w-full z-50 bg-blue-900 shadow-md">
+      <nav className="fixed top-0 w-full z-50 bg-gradient-to-r from-blue-900 via-blue-800 to-indigo-900 shadow-lg shadow-blue-900/40">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-
-          <h1 className="text-xl font-bold text-white">SeizureAI</h1>
+          <h1 className="text-xl font-bold text-white tracking-wide">
+            SeizureAI
+          </h1>
 
           {/* Desktop Menu */}
           <div className="hidden md:flex space-x-8 text-blue-100">
@@ -38,25 +48,32 @@ function Navbar() {
           {/* Desktop Auth Button */}
           <div className="hidden md:block">
             {isAuthenticated ? (
-              <button onClick={logOut} className="px-6 py-2 bg-white text-black rounded-lg hover:bg-red-500 transition">
+              <button
+                onClick={logOut}
+                className="px-6 py-2 rounded-lg bg-white/90 text-blue-900 font-medium
+                hover:bg-black/50 hover:text-white transition"
+              >
                 Logout
               </button>
-            ):
-             (
+            ) : (
               <button
                 onClick={() => setActiveModal("register")}
-                className="px-5 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-500"
+                className="px-5 py-2 rounded-lg bg-blue-600 text-white
+                hover:bg-blue-500 transition shadow-md shadow-blue-900/30"
               >
                 Sign Up
               </button>
-            )
-            }
+            )}
           </div>
 
           {/* Mobile Right Button */}
           <div className="md:hidden">
             {!isAuthenticated ? (
-              <button onClick={() => setActiveModal("register")}className="px-4 py-2 rounded-lg bg-blue-600 text-white">
+              <button
+                onClick={() => setActiveModal("register")}
+                className="px-4 py-2 rounded-lg bg-blue-600 text-white
+                hover:bg-blue-500 transition shadow"
+              >
                 Sign Up
               </button>
             ) : (
@@ -71,9 +88,9 @@ function Navbar() {
           </div>
         </div>
 
-        {/* Mobile Menu (only when logged in & ☰ clicked) */}
+        {/* Mobile Menu */}
         {isMobileOpen && isAuthenticated && (
-          <div className="md:hidden bg-blue-800 px-6 py-4 space-y-3 text-blue-100">
+          <div className="md:hidden bg-gradient-to-b from-blue-800 to-indigo-900 px-6 py-4 space-y-3 text-blue-100">
             <NavLinks mobile />
           </div>
         )}
